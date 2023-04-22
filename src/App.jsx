@@ -6,7 +6,6 @@ import { createContext, useState, useEffect, useRef } from "react";
 export const PropsContext = createContext();
 
 function App() {
-  //const [newTodoName, setNewTodoName] = useLocalStorage("newTodoName", "");
   const toDoName = useRef("");
   const [todos, setTodos] = useLocalStorage("todos", []);
   const [filterTodos, setFilterTodos] = useState("");
