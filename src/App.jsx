@@ -94,11 +94,8 @@ function App() {
           : checkTodos
         ).map(todo => {
           return (
-            <PropsContext.Provider
-              value={{ toggleTodo, deleteTodo }}
-              key={todo.id}
-            >
-              <TodoItem {...todo} />
+            <PropsContext.Provider value={{ toggleTodo, deleteTodo, ...todo }}>
+              <TodoItem />
             </PropsContext.Provider>
           );
         })}
