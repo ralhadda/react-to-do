@@ -10,7 +10,8 @@ function App() {
   const [todos, setTodos] = useLocalStorage("todos", []);
   const [filterTodos, setFilterTodos] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
-  const refValue = useRef(null);
+  const [checkTodo, setCheckTodo] = useState(false);
+  const [checkTodos, setCheckTodos] = useState([]);
 
   useEffect(() => {
     if (filterTodos === "") {
@@ -21,10 +22,17 @@ function App() {
     setFilteredTodos(todos.filter(todo => todo.name.includes(filterTodos)));
   }, [todos, filterTodos]);
 
+  useEffect(() => {
+    if (checkTodo === false) {
+      setCheckTodos([]);
+      return;
+    }
+
+    setCheckTodos(todos.filter(todo => todo.completed === false));
+  }, [todos, checkTodo]);
+
   function filterChecked() {
-    setTodos(currentTodos => {
-      return currentTodos.filter(todo => todo.completed === false);
-    });
+    setCheckTodo(!checkTodo);
   }
 
   function addNewTodo() {
@@ -74,12 +82,17 @@ function App() {
           />
         </div>
         <label>
-          <input type='checkbox' ref={refValue} onChange={filterChecked} />
+          <input type='checkbox' value={checkTodo} onChange={filterChecked} />
           Hide Completed
         </label>
       </div>
       <ul id='list'>
-        {(filterTodos === "" ? todos : filteredTodos).map(todo => {
+        {(checkTodo === false && filterTodos === ""
+          ? todos
+          : checkTodo === false && filterTodos !== ""
+          ? filteredTodos
+          : checkTodos
+        ).map(todo => {
           return (
             <PropsContext.Provider
               value={{ toggleTodo, deleteTodo }}
