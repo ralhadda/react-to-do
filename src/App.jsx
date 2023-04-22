@@ -6,7 +6,8 @@ import { createContext, useState, useEffect, useRef } from "react";
 export const PropsContext = createContext();
 
 function App() {
-  const [newTodoName, setNewTodoName] = useLocalStorage("newTodoName", "");
+  //const [newTodoName, setNewTodoName] = useLocalStorage("newTodoName", "");
+  const toDoName = useRef("");
   const [todos, setTodos] = useLocalStorage("todos", []);
   const [filterTodos, setFilterTodos] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
@@ -28,15 +29,21 @@ function App() {
   }
 
   function addNewTodo() {
+    const newTodoName = toDoName.current.value.trim();
     if (newTodoName === "") return;
 
     setTodos(currentTodos => {
       return [
         ...currentTodos,
-        { name: newTodoName, completed: false, id: crypto.randomUUID() }
+        {
+          name: newTodoName,
+          completed: false,
+          id: crypto.randomUUID()
+        }
       ];
     });
-    setNewTodoName("");
+
+    toDoName.current.value = "";
   }
 
   function toggleTodo(todoId, completed) {
@@ -87,12 +94,7 @@ function App() {
 
       <div id='new-todo-form'>
         <label htmlFor='todo-input'>New Todo</label>
-        <input
-          type='text'
-          id='todo-input'
-          value={newTodoName}
-          onChange={e => setNewTodoName(e.target.value)}
-        />
+        <input type='text' id='todo-input' ref={toDoName} />
         <button onClick={addNewTodo}>Add Todo</button>
       </div>
     </>
