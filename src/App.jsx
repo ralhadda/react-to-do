@@ -68,11 +68,7 @@ function App() {
           />
         </div>
         <label>
-          <input
-            type='checkbox'
-            ref={refValue}
-            onChange={e => filterChecked()}
-          />
+          <input type='checkbox' ref={refValue} onChange={filterChecked} />
           Hide Completed
         </label>
       </div>
