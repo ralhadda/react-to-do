@@ -1,9 +1,7 @@
 import "./styles.css";
 import { TodoItem } from "./TodoItem";
 import { useLocalStorage } from "./useLocalStorage";
-import { createContext, useState, useEffect, useRef, useCallback } from "react";
-
-export const PropsContext = createContext();
+import { useState, useEffect, useRef, useCallback } from "react";
 
 function App() {
   const toDoName = useRef("");
@@ -94,9 +92,12 @@ function App() {
           : checkTodos
         ).map(todo => {
           return (
-            <PropsContext.Provider value={{ toggleTodo, deleteTodo, ...todo }}>
-              <TodoItem />
-            </PropsContext.Provider>
+            <TodoItem
+              toggleTodo={toggleTodo}
+              deleteTodo={deleteTodo}
+              key={todo.id}
+              {...todo}
+            />
           );
         })}
       </ul>
