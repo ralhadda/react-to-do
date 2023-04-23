@@ -1,7 +1,7 @@
 import "./styles.css";
 import { TodoItem } from "./TodoItem";
 import { useLocalStorage } from "./useLocalStorage";
-import { createContext, useState, useEffect, useRef } from "react";
+import { createContext, useState, useEffect, useRef, useCallback } from "react";
 
 export const PropsContext = createContext();
 
@@ -31,9 +31,9 @@ function App() {
     setCheckTodos(todos.filter(todo => todo.completed === false));
   }, [todos, checkTodo]);
 
-  function filterChecked() {
+  const filterChecked = useCallback(() => {
     setCheckTodo(!checkTodo);
-  }
+  }, [checkTodo]);
 
   function addNewTodo() {
     const newTodoName = toDoName.current.value.trim();
