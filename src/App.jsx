@@ -29,9 +29,9 @@ function App() {
     setCheckTodos(todos.filter(todo => todo.completed === false));
   }, [todos, checkTodo]);
 
-  const filterChecked = useCallback(() => {
+  const filterChecked = () => {
     setCheckTodo(!checkTodo);
-  }, [checkTodo]);
+  };
 
   function addNewTodo() {
     const newTodoName = toDoName.current.value.trim();
@@ -51,21 +51,27 @@ function App() {
     toDoName.current.value = "";
   }
 
-  function toggleTodo(todoId, completed) {
-    setTodos(currentTodos => {
-      return currentTodos.map(todo => {
-        if (todo.id === todoId) return { ...todo, completed };
+  const toggleTodo = useCallback(
+    (todoId, completed) => {
+      setTodos(currentTodos => {
+        return currentTodos.map(todo => {
+          if (todo.id === todoId) return { ...todo, completed };
 
-        return todo;
+          return todo;
+        });
       });
-    });
-  }
+    },
+    [todos]
+  );
 
-  function deleteTodo(todoId) {
-    setTodos(currentTodos => {
-      return currentTodos.filter(todo => todo.id !== todoId);
-    });
-  }
+  const deleteTodo = useCallback(
+    todoId => {
+      setTodos(currentTodos => {
+        return currentTodos.filter(todo => todo.id !== todoId);
+      });
+    },
+    [todos]
+  );
 
   return (
     <>
