@@ -51,21 +51,27 @@ function App() {
     toDoName.current.value = "";
   }
 
-  const toggleTodo = useCallback((todoId, completed) => {
-    setTodos(currentTodos => {
-      return currentTodos.map(todo => {
-        if (todo.id === todoId) return { ...todo, completed };
+  const toggleTodo = useCallback(
+    (todoId, completed) => {
+      setTodos(currentTodos => {
+        return currentTodos.map(todo => {
+          if (todo.id === todoId) return { ...todo, completed };
 
-        return todo;
+          return todo;
+        });
       });
-    });
-  }, []);
+    },
+    [todos]
+  );
 
-  const deleteTodo = useCallback(todoId => {
-    setTodos(currentTodos => {
-      return currentTodos.filter(todo => todo.id !== todoId);
-    });
-  }, []);
+  const deleteTodo = useCallback(
+    todoId => {
+      setTodos(currentTodos => {
+        return currentTodos.filter(todo => todo.id !== todoId);
+      });
+    },
+    [todos]
+  );
 
   return (
     <>
